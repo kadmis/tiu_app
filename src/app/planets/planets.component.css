@@ -1,0 +1,21 @@
+.mat-table {
+  width: 100%;
+  overflow: auto;
+  max-height: 700px;
+}
+
+.mat-table .mat-row {
+  overflow: hidden;
+}
+
+.mat-table img {
+  max-height: 200px;
+}
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}

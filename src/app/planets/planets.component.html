@@ -1,0 +1,60 @@
+<mat-toolbar color="primary">
+
+  <span>Planety</span>
+
+  <span class="fill-remaining-space"></span>
+
+  <mat-radio-group>
+    <mat-radio-button value="1" [checked]="displayTable" (click)="displayTable=true; displayGrid=false">Tabela</mat-radio-button>
+    <mat-radio-button value="2" [checked]="displayGrid" (click)="displayGrid=true; displayTable=false">Kafelki</mat-radio-button>
+  </mat-radio-group>
+
+</mat-toolbar>
+
+<div *ngIf="displayTable">
+  <ng-container *ngTemplateOutlet="tableView"></ng-container>
+</div>
+
+<div *ngIf="displayGrid">
+  <ng-container *ngTemplateOutlet="gridView"></ng-container>
+</div>
+
+
+<ng-template #gridView>
+  <mat-grid-list cols="4" color="primary">
+    <mat-grid-tile *ngFor="let planet of planets.data">
+      <app-planet-card (click)="openSnackBar(planet.description)" [planet]=planet></app-planet-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</ng-template>
+
+<ng-template #tableView>
+  <mat-table [dataSource]="planets" matSort class="mat-elevation-z8" color="primary">
+
+    <ng-container matColumnDef="planetNumber">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Nr. </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.planetNumber}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Nazwa </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="image">
+      <mat-header-cell *matHeaderCellDef> Zdjęcie </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <img src="{{element.imagePath}}">
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columns;" (click)="openSnackBar(row.description)"></mat-row>
+
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[2, 4, 8]"></mat-paginator>
+</ng-template>
+
+
+
+
