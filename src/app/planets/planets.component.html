@@ -29,7 +29,7 @@
 </ng-template>
 
 <ng-template #tableView>
-  <mat-table [dataSource]="planets" matSort class="mat-elevation-z8" color="primary">
+  <mat-table *ngIf="planets" [dataSource]="planets" matSort class="mat-elevation-z8" color="primary">
 
     <ng-container matColumnDef="planetNumber">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Nr. </mat-header-cell>
@@ -44,7 +44,7 @@
     <ng-container matColumnDef="image">
       <mat-header-cell *matHeaderCellDef> Zdjęcie </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <img src="{{element.imagePath}}">
+        <img src="{{'https://localhost:5001/'+element.imagePath}}">
       </mat-cell>
     </ng-container>
 

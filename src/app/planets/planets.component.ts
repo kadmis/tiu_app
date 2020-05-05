@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Planet } from 'src/models/planet';
 import { PlanetsService } from 'src/services/planets.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -39,7 +39,7 @@ export class PlanetsComponent implements OnInit {
   }
 
   initData() {
-    this.planetService.data.subscribe(result => {
+    this.planetService.getPlanets().subscribe(result => {
       this.planets = new MatTableDataSource<Planet>(result);
     });
   }

@@ -1,4 +1,7 @@
 export class Planet {
-  constructor(public planetNumber: number, public name: string, public description: string, public imagePath: string) {
-  }
+  id: number;
+  planetNumber: number;
+  name: string;
+  description: string;
+  imagePath: string;
 }

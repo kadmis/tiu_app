@@ -14,12 +14,17 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { PlanetCardComponent } from './planet-card/planet-card.component';
 import { PlanetsComponent } from './planets/planets.component';
+import { HttpClientModule } from '@angular/common/http';
+import { PlanetComponent } from './planet/planet.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
     AppComponent,
     PlanetCardComponent,
-    PlanetsComponent
+    PlanetsComponent,
+    PlanetComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +37,10 @@ import { PlanetsComponent } from './planets/planets.component';
     MatSnackBarModule,
     MatPaginatorModule,
     MatSortModule,
-    MatRadioModule
+    MatRadioModule,
+    HttpClientModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
