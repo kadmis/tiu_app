@@ -4,7 +4,11 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon'; 
 import { MatRadioModule } from '@angular/material/radio';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button'; 
+import {MatDividerModule} from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -18,18 +22,25 @@ import { HttpClientModule } from '@angular/common/http';
 import { PlanetComponent } from './planet/planet.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { AddEditPlanetComponent } from './add-edit-planet/add-edit-planet.component';
+import { UploadComponentComponent } from './upload-component/upload-component.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     PlanetCardComponent,
     PlanetsComponent,
-    PlanetComponent
+    PlanetComponent,
+    AddEditPlanetComponent,
+    UploadComponentComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
+    MatIconModule,
     MatTableModule,
     MatCardModule,
     MatGridListModule,
@@ -40,7 +51,9 @@ import { MatInputModule } from '@angular/material/input';
     MatRadioModule,
     HttpClientModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatButtonModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

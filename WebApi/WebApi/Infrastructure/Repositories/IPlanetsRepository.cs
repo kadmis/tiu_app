@@ -12,6 +12,7 @@ namespace WebApi.Infrastructure.Repositories
     Task<Planet> Get(int id);
     Task<int> Add(Planet planet);
     Planet Update(Planet planet);
-    void Delete(int id);
+    bool Delete(int id);
+    void SaveChanges();
   }
 }

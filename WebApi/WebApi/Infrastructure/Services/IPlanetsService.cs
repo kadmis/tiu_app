@@ -12,6 +12,6 @@ namespace WebApi.Infrastructure.Services
     Task<PlanetDTO> GetPlanet(int id);
     Task<int> AddPlanet(PlanetDTO planet);
     PlanetDTO UpdatePlanet(PlanetDTO planet);
-    void DeletePlanet(int id);
+    bool DeletePlanet(int id);
   }
 }

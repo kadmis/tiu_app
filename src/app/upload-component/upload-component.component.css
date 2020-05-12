@@ -1,0 +1,13 @@
+.upload-success{
+    font-weight:bold;
+    color:#28a745;
+    margin-left: 15px;
+    line-height: 36px;
+}
+
+.upload-fail{
+    font-weight:bold;
+    color:#ca2c2c;
+    margin-left: 15px;
+    line-height: 36px;
+}

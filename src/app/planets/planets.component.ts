@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Planet } from 'src/models/planet';
-import { PlanetsService } from 'src/services/planets.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { PlanetsService } from 'src/services/planets.service';
 
 @Component({
   selector: 'app-planets',
@@ -22,6 +24,8 @@ export class PlanetsComponent implements OnInit {
   private paginator: MatPaginator;
   private sort: MatSort;
 
+  dataSubscription: Subscription;
+
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
     this.planets.sort = this.sort;
@@ -32,20 +36,13 @@ export class PlanetsComponent implements OnInit {
     this.planets.paginator = this.paginator;
   }
 
-  constructor(private planetService: PlanetsService, private snackBar: MatSnackBar) { }
-
-  ngOnInit(): void {
-    this.initData();
-  }
-
-  initData() {
-    this.planetService.getPlanets().subscribe(result => {
-      this.planets = new MatTableDataSource<Planet>(result);
+  constructor(private service: PlanetsService, private route: ActivatedRoute) {
+    this.dataSubscription = this.route.data.subscribe(data => {
+      this.planets = new MatTableDataSource(data.planets);
     });
   }
 
-  openSnackBar(planetDescription: string) {
-    this.snackBar.open(planetDescription, 'Ok', {duration: 10000, verticalPosition: 'top'});
+  ngOnInit(): void {
   }
 
 }

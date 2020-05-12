@@ -1,6 +1,7 @@
 <mat-toolbar color="primary">
 
-  <span>Planety</span>
+  <span routerLink="''">Planety</span>
+  <mat-icon class="add-icon" aria-hidden="false" routerLink="add-planet">add</mat-icon>
 
   <span class="fill-remaining-space"></span>
 
@@ -23,7 +24,7 @@
 <ng-template #gridView>
   <mat-grid-list cols="4" color="primary">
     <mat-grid-tile *ngFor="let planet of planets.data">
-      <app-planet-card (click)="openSnackBar(planet.description)" [planet]=planet></app-planet-card>
+      <app-planet-card [planet]=planet></app-planet-card>
     </mat-grid-tile>
   </mat-grid-list>
 </ng-template>
@@ -44,12 +45,12 @@
     <ng-container matColumnDef="image">
       <mat-header-cell *matHeaderCellDef> Zdjęcie </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <img src="{{'https://localhost:5001/'+element.imagePath}}">
+        <img [attr.src]="'https://localhost:5001/'+element.imagePath">
       </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: columns;" (click)="openSnackBar(row.description)"></mat-row>
+    <mat-row *matRowDef="let row; columns: columns;"></mat-row>
 
   </mat-table>
   <mat-paginator [pageSizeOptions]="[2, 4, 8]"></mat-paginator>

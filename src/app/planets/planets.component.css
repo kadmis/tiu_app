@@ -19,3 +19,7 @@
 .mat-radio-button ~ .mat-radio-button {
   margin-left: 16px;
 }
+
+.add-icon:hover {
+  cursor: pointer;
+}

@@ -29,20 +29,32 @@ namespace WebApi.Infrastructure.Repositories
     public async Task<int> Add(Planet planet)
     {
       await context.Planets.AddAsync(planet);
+      SaveChanges();
       return planet.Id;
     }
 
     public Planet Update(Planet planet)
     {
       context.Planets.Update(planet);
+      SaveChanges();
       return planet;
     }
 
-    public void Delete(int id)
+    public bool Delete(int id)
     {
       var entityToRemove = context.Planets.Find(id);
-      if (entityToRemove != null)
-          context.Planets.Remove(entityToRemove);
+      if (entityToRemove != null) 
+      {
+        context.Planets.Remove(entityToRemove);
+        SaveChanges();
+        return true;
+      }  
+      return false;
+    }
+
+    public void SaveChanges()
+    {
+      context.SaveChanges();
     }
   }
 }

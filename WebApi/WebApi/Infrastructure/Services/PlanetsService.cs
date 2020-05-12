@@ -22,12 +22,13 @@ namespace WebApi.Infrastructure.Services
 
     public async Task<int> AddPlanet(PlanetDTO planet)
     {
-      return await repository.Add(mapper.Map<Planet>(planet));
+      var result = await repository.Add(mapper.Map<Planet>(planet));
+      return result;
     }
 
-    public void DeletePlanet(int id)
+    public bool DeletePlanet(int id)
     {
-      repository.Delete(id);
+      return repository.Delete(id);
     }
 
     public async Task<PlanetDTO> GetPlanet(int id)
@@ -42,7 +43,8 @@ namespace WebApi.Infrastructure.Services
 
     public PlanetDTO UpdatePlanet(PlanetDTO planet)
     {
-      return mapper.Map<PlanetDTO>(repository.Update(mapper.Map<Planet>(planet)));
+      var result = repository.Update(mapper.Map<Planet>(planet));
+      return mapper.Map<PlanetDTO>(result);
     }
   }
 }

@@ -1,0 +1,14 @@
+<div class="row" style="margin-bottom:15px;">
+  <div class="col-md-3">
+    <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+    <button mat-raised-button type="button" class="btn btn-success" (click)="file.click()">Dodaj plik zdjęcia</button>
+  </div>
+  <div class="col-md-4">
+    <span class="upload-success" *ngIf="uploadResult && uploadResult.success">
+        Pomyślnie dodano plik
+    </span>
+    <span class="upload-fail" *ngIf="uploadResult && !uploadResult.success">
+        Dodawanie pliku nie powiodło się
+      </span>
+  </div>
+</div>

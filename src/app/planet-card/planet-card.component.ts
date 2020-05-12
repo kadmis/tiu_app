@@ -1,5 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Planet } from 'src/models/planet';
+import { PlanetsService } from 'src/services/planets.service';
+import { first } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-planet-card',
@@ -10,9 +14,27 @@ export class PlanetCardComponent implements OnInit {
 
   @Input() planet: Planet;
 
-  constructor() { }
+  constructor(private snackBar: MatSnackBar, private planetService: PlanetsService, private router: Router) {}
 
   ngOnInit(): void {
+  }
+
+  onDelete() {
+    this.planetService
+    .deletePlanet(this.planet.id)
+    .pipe(first())
+    .subscribe(success=>{
+      if(success) {
+        this.openSnackBar("Poprawnie usunięto planetę",3000);
+      }
+      else {
+        this.openSnackBar("Nie udało się usunąć planety",3000);
+      }
+    });
+  }
+
+  openSnackBar(message: string, duration: number) {
+    this.snackBar.open(message, 'Ok', {duration: duration, verticalPosition: 'top'});
   }
 
 }

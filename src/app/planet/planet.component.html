@@ -1,6 +1,21 @@
-<mat-form-field>
-  <mat-form-field>
-    <mat-label>Nazwa planety:</mat-label>
-    <input matInput placeholder="Nazwa">
-  </mat-form-field>
-</mat-form-field>
+<button mat-raised-button class="action-icon" title="Powrót" aria-hidden="false" [routerLink]="'/'"><mat-icon>keyboard_arrow_left</mat-icon>Powrót</button>
+<br/>
+<br/>
+
+<mat-card class="planet-card" *ngIf="planet">
+    <mat-card-header>
+      <div mat-card-avatar style="background-image: url(assets/planet-icon.png); background-size: cover;"></div>
+      <mat-card-title>{{planet.name}}</mat-card-title>
+      <mat-card-subtitle>Planeta nr.{{planet.planetNumber}}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [attr.src]="'https://localhost:5001/'+planet.imagePath">
+    <mat-card-content>
+      <p>
+        {{planet.description}}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button [routerLink]="'/edit-planet/'+planet.id">Edytuj</button>
+    </mat-card-actions>
+  </mat-card>
+  

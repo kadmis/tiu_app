@@ -12,8 +12,11 @@ import { ActivatedRoute } from '@angular/router';
 export class PlanetComponent implements OnInit, OnDestroy {
 
   planet: Planet;
+  isEdit: boolean;
+  
   dataSubscription: Subscription;
-  constructor(private service: PlanetsService, private route: ActivatedRoute) {
+
+  constructor(private route: ActivatedRoute) {
     this.dataSubscription = this.route.data.subscribe(result => {
       this.planet = result.planet;
     });

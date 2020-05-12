@@ -1,0 +1,57 @@
+
+<button mat-raised-button class="action-icon" title="Powrót" aria-hidden="false" [routerLink]="'/'"><mat-icon>keyboard_arrow_left</mat-icon>Powrót</button>
+
+<br/>
+<br/>
+
+<div>
+    <h3>{{isEdit ? "Edycja" : "Dodawanie"}} planety</h3>
+    <form [formGroup]="form" (ngSubmit)="submitChanges()">
+
+        <mat-form-field>
+            <mat-label>Nazwa planety</mat-label>
+            <input type="text" matInput placeholder="Nazwa" formControlName="name">
+    
+            <mat-error *ngIf="getFormField('name').invalid && (getFormField('name').dirty || getFormField('name').touched)">
+    
+                <mat-error *ngIf="getFormField('name').errors.required">
+                    Nazwa jest wymagana
+                </mat-error>
+    
+                <mat-error *ngIf="getFormField('name').errors.maxlength">
+                    Nazwa nie może być dłuższa, niż 50 znaków
+                </mat-error>
+            </mat-error>
+        </mat-form-field>
+    
+        <br/>
+    
+        <mat-form-field>
+            <mat-label>Numer planety</mat-label>
+            <input type="text" matInput placeholder="Numer" formControlName="planetNumber">
+            <mat-error *ngIf="getFormField('planetNumber').invalid && (getFormField('planetNumber').dirty || getFormField('planetNumber').touched)">
+    
+                <mat-error *ngIf="getFormField('planetNumber').errors.pattern">
+                    Pole musi być liczbą naturalną. 
+                </mat-error>
+
+                <mat-error *ngIf="getFormField('planetNumber').errors.required">
+                    Numer jest wymagany
+                </mat-error>
+    
+            </mat-error>
+        </mat-form-field>
+    
+        <br/>
+    
+        <mat-form-field>
+            <mat-label>Opis planety</mat-label>
+            <textarea cdkTextareaAutosize type="text" matInput placeholder="Opis" formControlName="description"></textarea>
+        </mat-form-field>
+    
+        <app-upload-component (uploadFinished)="uploadFinished($event)"></app-upload-component>
+    
+        <button mat-raised-button type="submit" [disabled]="!form.valid">Zapisz</button>
+    </form>
+</div>
+
