@@ -13,8 +13,6 @@ import { first } from 'rxjs/operators';
 export class PlanetComponent implements OnInit {
 
   planet: Planet;
-  
-  dataSubscription: Subscription;
 
   constructor(private route: ActivatedRoute) {
     this.route.data.pipe(first()).subscribe(result => {
