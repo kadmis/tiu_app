@@ -36,13 +36,12 @@ export class PlanetsComponent implements OnInit {
   }
 
   constructor(private service: PlanetsService, private route: ActivatedRoute, private snackBar: MatSnackBar, private router: Router) {
-
+    this.route.data.subscribe(data => {
+      this.planets = new MatTableDataSource(data.planets);
+    });
   }
 
   ngOnInit(): void {
-    this.service.getPlanets().subscribe(result=>{
-      this.planets = new MatTableDataSource(result);
-    });
   }
 
   onDelete(id: number) {
