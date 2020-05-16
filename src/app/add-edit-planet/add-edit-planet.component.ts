@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Planet } from 'src/models/planet';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -16,12 +15,11 @@ export class AddEditPlanetComponent implements OnInit {
 
   isEdit: boolean;
   planet: Planet;
-  dataSubscription: Subscription;
 
   form: FormGroup;
 
   constructor(private snackBar: MatSnackBar, private route: ActivatedRoute, private planetService: PlanetsService, private router: Router) {
-    this.dataSubscription = this.route.data.pipe(first()).subscribe(result => {
+    this.route.data.pipe(first()).subscribe(result => {
       this.isEdit = result.isEdit;
       if(result.isEdit)
         this.planet = result.planet;

@@ -37,7 +37,6 @@ const routes: Routes = [
       isEdit: true
     }
   },
-
 ];
 
 @NgModule({

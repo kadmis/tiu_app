@@ -18,7 +18,7 @@ namespace WebApi.Infrastructure.Repositories
 
     public async Task<IEnumerable<Planet>> Get()
     {
-      return await context.Planets.ToListAsync();
+      return await context.Planets.OrderBy(p=>p.PlanetNumber).ToListAsync();
     }
 
     public async Task<Planet> Get(int id)

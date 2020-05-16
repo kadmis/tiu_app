@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Planet } from 'src/models/planet';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { UploadResult } from 'src/models/upload-result';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
