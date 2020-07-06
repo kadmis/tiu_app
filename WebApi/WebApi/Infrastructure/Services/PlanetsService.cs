@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApi.Infrastructure.DTO;
 using WebApi.Infrastructure.Entities;
+using WebApi.Infrastructure.Filters;
 using WebApi.Infrastructure.Repositories;
 
 namespace WebApi.Infrastructure.Services
@@ -39,6 +40,17 @@ namespace WebApi.Infrastructure.Services
     public async Task<IEnumerable<PlanetDTO>> GetPlanets()
     {
       return mapper.Map<IEnumerable<PlanetDTO>>(await repository.Get());
+    }
+
+    public async Task<FilteringAndPagingResult> GetPlanetsFilteredPaginated(PlanetFilter filters)
+    {
+      var filtered = repository.GetFiltered(filters);
+      var paginated = await repository.GetPaginated(filtered, filters.PageSize, filters.PageNumber);
+      return new FilteringAndPagingResult
+      {
+        Planets = mapper.Map<IEnumerable<PlanetDTO>>(paginated),
+        TotalItems = filtered.Count()
+      };
     }
 
     public PlanetDTO UpdatePlanet(PlanetDTO planet)

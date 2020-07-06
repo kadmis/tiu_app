@@ -7,7 +7,7 @@ using WebApi.Infrastructure;
 
 namespace WebApi.Migrations
 {
-    [DbContext(typeof(PlanetsContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20200504093232_init")]
     partial class init
     {

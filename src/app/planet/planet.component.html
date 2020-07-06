@@ -1,8 +1,8 @@
-<button mat-raised-button class="action-icon" title="Powrót" aria-hidden="false" [routerLink]="'/'"><mat-icon>keyboard_arrow_left</mat-icon>Powrót</button>
-<br/>
-<br/>
+<mat-toolbar color="secondary">
+  <button mat-raised-button class="action-icon" title="Powrót" aria-hidden="false" [routerLink]="'/planets'"><mat-icon>keyboard_arrow_left</mat-icon>Powrót</button>
+</mat-toolbar>
 
-<mat-card class="planet-card" *ngIf="planet">
+<mat-card class="planet-card" *ngIf="planet" class="planet-card mat-elevation-z4">
     <mat-card-header>
       <div mat-card-avatar style="background-image: url(assets/planet-icon.png); background-size: cover;"></div>
       <mat-card-title>{{planet.name}}</mat-card-title>
@@ -15,7 +15,7 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-button [routerLink]="'/edit-planet/'+planet.id">Edytuj</button>
+        <button *ngIf="isEditingEnabled()" color="primary" mat-raised-button [routerLink]="'/edit-planet/'+planet.id">Edytuj</button>
     </mat-card-actions>
-  </mat-card>
+</mat-card>
   

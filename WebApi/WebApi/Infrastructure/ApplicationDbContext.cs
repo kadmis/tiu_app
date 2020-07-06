@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,15 +8,17 @@ using WebApi.Infrastructure.Entities;
 
 namespace WebApi.Infrastructure
 {
-  public class PlanetsContext : DbContext
+  public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
   {
     public DbSet<Planet> Planets { get; set; }
-    public PlanetsContext(DbContextOptions options) : base(options)
+    public ApplicationDbContext(DbContextOptions options) : base(options)
     {
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      base.OnModelCreating(modelBuilder);
+
       modelBuilder.Entity<Planet>()
         .HasKey(p => p.Id);
       modelBuilder.Entity<Planet>()
@@ -31,6 +34,12 @@ namespace WebApi.Infrastructure
         new Planet() { Id = 6, PlanetNumber = 5, Name = "Jowisz", Description = "Piąta w kolejności od Słońca i największa planeta Układu Słonecznego", ImagePath = "assets/jupiter.jpg" },
         new Planet() { Id = 7, PlanetNumber = 6, Name = "Saturn", Description = "Szósta planeta Układu Słonecznego pod względem odległości od Słońca, druga po Jowiszu pod względem masy i wielkości", ImagePath = "assets/saturn.jpg" },
         new Planet() { Id = 8, PlanetNumber = 7, Name = "Uran", Description = "Siódma od Słońca planeta Układu Słonecznego, trzecia pod względem wielkości i czwarta pod względem masy.", ImagePath = "assets/uranus.jpg" }
+      );
+
+      modelBuilder.Entity<ApplicationRole>().HasData(
+        new ApplicationRole { Id = 1, Name = "Casual", NormalizedName = "CASUAL"},
+        new ApplicationRole { Id = 2, Name = "SuperUser", NormalizedName = "SUPERUSER" },
+        new ApplicationRole { Id = 3, Name = "Admin", NormalizedName = "ADMIN"}
       );
     }
   }

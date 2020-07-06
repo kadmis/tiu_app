@@ -5,6 +5,7 @@ import { Planet } from 'src/models/planet';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PlanetsService } from 'src/services/planets.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/services/auth.service';
 
 @Component({
   selector: 'app-add-edit-planet',
@@ -15,16 +16,29 @@ export class AddEditPlanetComponent implements OnInit {
 
   isEdit: boolean;
   planet: Planet;
+  backRoute: string;
 
   form: FormGroup;
 
-  constructor(private snackBar: MatSnackBar, private route: ActivatedRoute, private planetService: PlanetsService, private router: Router) {
+  constructor
+  (
+    private snackBar: MatSnackBar, 
+    private route: ActivatedRoute, 
+    private planetService: PlanetsService, 
+    private router: Router,
+    private authService: AuthService
+  ) 
+  {
     this.route.data.pipe(first()).subscribe(result => {
       this.isEdit = result.isEdit;
-      if(result.isEdit)
+      if(result.isEdit) {
         this.planet = result.planet;
-      else
+        this.backRoute = '/planet-details/'+this.planet.id;
+      }       
+      else {
         this.planet = new Planet();
+        this.backRoute = '/planets/';
+      }        
     });
   }
 
@@ -75,6 +89,10 @@ export class AddEditPlanetComponent implements OnInit {
 
   openSnackBar(message: string, duration: number) {
     this.snackBar.open(message, 'Ok', {duration: duration, verticalPosition: 'top'});
+  }
+
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
   }
 
 }

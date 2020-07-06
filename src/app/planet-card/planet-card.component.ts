@@ -4,6 +4,7 @@ import { PlanetsService } from 'src/services/planets.service';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/services/auth.service';
 
 @Component({
   selector: 'app-planet-card',
@@ -14,7 +15,12 @@ export class PlanetCardComponent implements OnInit {
 
   @Input() planet: Planet;
 
-  constructor(private snackBar: MatSnackBar, private planetService: PlanetsService, private router: Router) {}
+  constructor
+  (
+    private snackBar: MatSnackBar, 
+    private planetService: PlanetsService, 
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
   }
@@ -35,6 +41,10 @@ export class PlanetCardComponent implements OnInit {
 
   openSnackBar(message: string, duration: number) {
     this.snackBar.open(message, 'Ok', {duration: duration, verticalPosition: 'top'});
+  }
+
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
   }
 
 }

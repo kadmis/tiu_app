@@ -1,0 +1,8 @@
+<mat-toolbar color="primary">
+
+    <span routerLink="planets">Planety</span>
+    <mat-icon *ngIf="isAddingAllowed() && isLoggedIn()" class="add-icon" aria-hidden="false" routerLink="add-planet">add</mat-icon>
+    <span class="fill-remaining-space"></span>
+
+    <mat-icon *ngIf="isLoggedIn()" title="Wyloguj" class="add-icon" aria-hidden="false" (click)="logout()">exit_to_app</mat-icon>
+</mat-toolbar>

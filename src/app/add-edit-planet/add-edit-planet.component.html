@@ -1,57 +1,71 @@
 
-<button mat-raised-button class="action-icon" title="Powrót" aria-hidden="false" [routerLink]="'/'"><mat-icon>keyboard_arrow_left</mat-icon>Powrót</button>
+<mat-toolbar color="secondary">
+    <button mat-raised-button class="action-icon" title="Powrót" aria-hidden="false" [routerLink]="backRoute">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+        Powrót
+    </button>
+</mat-toolbar>
 
-<br/>
-<br/>
+<mat-card class="add-planet-card mat-elevation-z20">
+    <mat-card-header>
+        <mat-card-title>
+            {{isEdit ? "Edycja" : "Dodawanie"}} planety
+        </mat-card-title>
+    </mat-card-header>
+    
 
-<div>
-    <h3>{{isEdit ? "Edycja" : "Dodawanie"}} planety</h3>
-    <form [formGroup]="form" (ngSubmit)="submitChanges()">
-
-        <mat-form-field>
-            <mat-label>Nazwa planety</mat-label>
-            <input type="text" matInput placeholder="Nazwa" formControlName="name">
+        <form [formGroup]="form" (ngSubmit)="submitChanges()">
+            <mat-card-content>   
+                <mat-form-field>
+                    <mat-label>Nazwa planety</mat-label>
+                    <input type="text" matInput formControlName="name">
+            
+                    <mat-error *ngIf="getFormField('name').invalid && (getFormField('name').dirty || getFormField('name').touched)">
+            
+                        <mat-error *ngIf="getFormField('name').errors.required">
+                            Nazwa jest wymagana
+                        </mat-error>
+            
+                        <mat-error *ngIf="getFormField('name').errors.maxlength">
+                            Nazwa nie może być dłuższa, niż 50 znaków
+                        </mat-error>
+                    </mat-error>
+                </mat-form-field>
+            
+                <br/>
+            
+                <mat-form-field>
+                    <mat-label>Numer planety</mat-label>
+                    <input type="text" matInput formControlName="planetNumber">
+                    <mat-error *ngIf="getFormField('planetNumber').invalid && (getFormField('planetNumber').dirty || getFormField('planetNumber').touched)">
+            
+                        <mat-error *ngIf="getFormField('planetNumber').errors.pattern">
+                            Pole musi być liczbą naturalną. 
+                        </mat-error>
+        
+                        <mat-error *ngIf="getFormField('planetNumber').errors.required">
+                            Numer jest wymagany
+                        </mat-error>
+            
+                    </mat-error>
+                </mat-form-field>
+            
+                <br/>
+            
+                <mat-form-field>
+                    <mat-label>Opis planety</mat-label>
+                    <textarea cdkTextareaAutosize type="text" matInput formControlName="description"></textarea>
+                </mat-form-field>
+            
+                <app-upload-component *ngIf="isAdmin()" (uploadFinished)="uploadFinished($event)"></app-upload-component> 
+            </mat-card-content>
+            <mat-card-footer>
+                <button class="submit-button" mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Zapisz</button>
+            </mat-card-footer>
+            
+        </form>
+        
     
-            <mat-error *ngIf="getFormField('name').invalid && (getFormField('name').dirty || getFormField('name').touched)">
     
-                <mat-error *ngIf="getFormField('name').errors.required">
-                    Nazwa jest wymagana
-                </mat-error>
-    
-                <mat-error *ngIf="getFormField('name').errors.maxlength">
-                    Nazwa nie może być dłuższa, niż 50 znaków
-                </mat-error>
-            </mat-error>
-        </mat-form-field>
-    
-        <br/>
-    
-        <mat-form-field>
-            <mat-label>Numer planety</mat-label>
-            <input type="text" matInput placeholder="Numer" formControlName="planetNumber">
-            <mat-error *ngIf="getFormField('planetNumber').invalid && (getFormField('planetNumber').dirty || getFormField('planetNumber').touched)">
-    
-                <mat-error *ngIf="getFormField('planetNumber').errors.pattern">
-                    Pole musi być liczbą naturalną. 
-                </mat-error>
-
-                <mat-error *ngIf="getFormField('planetNumber').errors.required">
-                    Numer jest wymagany
-                </mat-error>
-    
-            </mat-error>
-        </mat-form-field>
-    
-        <br/>
-    
-        <mat-form-field>
-            <mat-label>Opis planety</mat-label>
-            <textarea cdkTextareaAutosize type="text" matInput placeholder="Opis" formControlName="description"></textarea>
-        </mat-form-field>
-    
-        <app-upload-component (uploadFinished)="uploadFinished($event)"></app-upload-component>
-    
-        <button mat-raised-button type="submit" [disabled]="!form.valid">Zapisz</button>
-    </form>
-</div>
+</mat-card>
 

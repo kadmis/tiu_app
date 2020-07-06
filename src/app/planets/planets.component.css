@@ -23,3 +23,15 @@
 .add-icon:hover {
   cursor: pointer;
 }
+
+.form-field {
+  margin: 0.5%;
+}
+
+.button {
+  margin: 0.5%;
+}
+
+.paginator {
+  max-width: 200px;
+}

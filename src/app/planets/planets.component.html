@@ -1,25 +1,95 @@
-<mat-toolbar color="primary">
-
-  <span routerLink="''">Planety</span>
-  <mat-icon class="add-icon" aria-hidden="false" routerLink="add-planet">add</mat-icon>
-
+<mat-toolbar color="secondary">
   <span class="fill-remaining-space"></span>
 
   <mat-radio-group>
-    <mat-radio-button value="1" [checked]="displayTable" (click)="displayTable=true; displayGrid=false">Tabela</mat-radio-button>
-    <mat-radio-button value="2" [checked]="displayGrid" (click)="displayGrid=true; displayTable=false">Kafelki</mat-radio-button>
+    <mat-radio-button value="1" [checked]="displayTable" (click)="onSwitchViewMode()">Tabela
+    </mat-radio-button>
+    <mat-radio-button value="2" [checked]="displayGrid" (click)="onSwitchViewMode()">Kafelki
+    </mat-radio-button>
   </mat-radio-group>
 
 </mat-toolbar>
 
-<div *ngIf="displayTable">
+<ng-container>
+  <ng-container>
+    <form [formGroup]="filtersForm" (ngSubmit)="onAcceptFormFilters()">
+
+      <mat-form-field class="form-field">
+        <mat-label>Nazwa planety:</mat-label>
+        <input type="text" matInput formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Numer planety od:</mat-label>
+        <input type="text" matInput formControlName="planetNumberFrom">
+
+        <mat-error
+          *ngIf="getFormField('planetNumberFrom').invalid && (getFormField('planetNumberFrom').dirty || getFormField('planetNumberFrom').touched)">
+
+          <mat-error *ngIf="getFormField('planetNumberFrom').errors.pattern">
+            Pole musi być liczbą naturalną.
+          </mat-error>
+
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Numer planety do:</mat-label>
+        <input type="text" matInput formControlName="planetNumberTo">
+
+        <mat-error
+          *ngIf="getFormField('planetNumberTo').invalid && (getFormField('planetNumberTo').dirty || getFormField('planetNumberTo').touched)">
+
+          <mat-error *ngIf="getFormField('planetNumberTo').errors.pattern">
+            Pole musi być liczbą naturalną.
+          </mat-error>
+
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="selectOrderByOpts" class="form-field">
+        <mat-label>Sortowanie po:</mat-label>
+        <mat-select [(value)]="planetsFilters.orderBy">
+          <mat-option *ngFor="let opt of selectOrderByOpts" [value]="opt.key">{{opt.value}}</mat-option>
+        </mat-select>
+      </mat-form-field>   
+      
+      <mat-form-field *ngIf="selectOrderOpts" class="form-field">
+        <mat-label>Tryb sortowania:</mat-label>
+        <mat-select [(value)]="planetsFilters.order">
+          <mat-option *ngFor="let opt of selectOrderOpts" [value]="opt.key">{{opt.value}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button class="button" mat-raised-button color="primary" type="submit" [disabled]="!filtersForm.valid">Zatwierdź</button>
+      <button class="button" mat-raised-button color="secondary" type="button" (click)="saveFilters()">Zapisz filtry</button>
+      <button class="button" mat-raised-button color="secondary" type="button" (click)="clearFilters()">Wyczyść filtry</button>
+      <button class="button" mat-raised-button color="secondary" type="button" (click)="exportToCSV()">Export do CSV</button>
+
+    </form>
+
+  </ng-container>
+
+  <ng-container class="paginator">
+    <mat-paginator
+    #paginator
+    [pageSizeOptions]="[2, 4, 6, 8]" 
+    [pageSize]="pageSize"
+    [length]="paginatorLength"
+    (page)="onPageEvent($event)">
+    </mat-paginator>
+  </ng-container>
+  
+  
+</ng-container>
+
+<ng-container *ngIf="displayTable && planets">
   <ng-container *ngTemplateOutlet="tableView"></ng-container>
-</div>
+</ng-container>
 
-<div *ngIf="displayGrid">
+<ng-container *ngIf="displayGrid && planets">
   <ng-container *ngTemplateOutlet="gridView"></ng-container>
-</div>
-
+</ng-container>
 
 <ng-template #gridView>
   <mat-grid-list cols="4" color="primary">
@@ -30,15 +100,15 @@
 </ng-template>
 
 <ng-template #tableView>
-  <mat-table *ngIf="planets" [dataSource]="planets" matSort class="mat-elevation-z8" color="primary">
+  <mat-table [dataSource]="planets" class="mat-elevation-z8">
 
     <ng-container matColumnDef="planetNumber">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Nr. </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Nr. </mat-header-cell>
       <mat-cell *matCellDef="let element">{{element.planetNumber}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Nazwa </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Nazwa </mat-header-cell>
       <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
     </ng-container>
 
@@ -50,20 +120,15 @@
     </ng-container>
 
     <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <button mat-raised-button (click)="onShowDetails(element.id)">Szczegóły</button>
-        <button mat-raised-button (click)="onDelete(element.id)">Usuń</button>
+        <button class="button" mat-raised-button (click)="onShowDetails(element.id)">Szczegóły</button>
+        <button class="button" mat-raised-button color="primary" (click)="onDelete(element.id)" *ngIf="isDeletingEnabled()">Usuń</button>
       </mat-cell>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+    <mat-header-row color="primary" *matHeaderRowDef="columns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: columns;"></mat-row>
 
   </mat-table>
-  <mat-paginator [pageSizeOptions]="[2, 4, 8]"></mat-paginator>
 </ng-template>
-
-
-
-

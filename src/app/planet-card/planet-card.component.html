@@ -1,5 +1,5 @@
-<mat-card *ngIf="planet" class="planet-card">
-  <mat-card-header color="primary">
+<mat-card tabindex="0" *ngIf="planet" class="planet-card mat-elevation-z4">
+  <mat-card-header>
     <div mat-card-avatar style="background-image: url(assets/planet-icon.png); background-size: cover;"></div>
     <mat-card-title>{{planet.name}}</mat-card-title>
     <mat-card-subtitle>Planeta nr. {{planet.planetNumber}}</mat-card-subtitle>
@@ -8,7 +8,7 @@
     <img class="planet-image" mat-card-image [attr.src]="'https://localhost:5001/'+planet.imagePath">
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button (click)="onDelete()">Usuń</button>
-    <button mat-button [routerLink]="'/planet-details/'+planet.id">Szczegóły</button>
+    <button mat-raised-button color="primary" *ngIf="isAdmin()" (click)="onDelete()">Usuń</button>
+    <button mat-raised-button [routerLink]="'/planet-details/'+planet.id">Szczegóły</button>
   </mat-card-actions>
 </mat-card>
